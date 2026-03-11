@@ -16,6 +16,7 @@ import {GitHub} from '../github';
 import {ChangelogNotes, ChangelogSection} from '../changelog-notes';
 import {GitHubChangelogNotes} from '../changelog-notes/github';
 import {DefaultChangelogNotes} from '../changelog-notes/default';
+import {KeepAChangelogNotes} from '../changelog-notes/keep-a-changelog';
 import {ConfigurationError} from '../errors';
 
 export type ChangelogNotesType = string;
@@ -36,6 +37,7 @@ export type ChangelogNotesBuilder = (
 const changelogNotesFactories: Record<string, ChangelogNotesBuilder> = {
   github: options => new GitHubChangelogNotes(options.github),
   default: options => new DefaultChangelogNotes(options),
+  'keep-a-changelog': () => new KeepAChangelogNotes(),
 };
 
 export function buildChangelogNotes(

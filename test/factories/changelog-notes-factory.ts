@@ -37,7 +37,7 @@ describe('ChangelogNotesFactory', () => {
     });
   });
   describe('buildChangelogNotes', () => {
-    const changelogTypes = ['default', 'github'];
+    const changelogTypes = ['default', 'github', 'keep-a-changelog'];
     for (const changelogType of changelogTypes) {
       it(`should build a simple ${changelogType}`, () => {
         const changelogNotes = buildChangelogNotes({
@@ -55,7 +55,11 @@ describe('ChangelogNotesFactory', () => {
   });
   describe('getChangelogTypes', () => {
     it('should return default types', () => {
-      const defaultTypes: ChangelogNotesType[] = ['default', 'github'];
+      const defaultTypes: ChangelogNotesType[] = [
+        'default',
+        'github',
+        'keep-a-changelog',
+      ];
 
       const types = getChangelogTypes();
       defaultTypes.forEach(type => expect(types).to.contain(type));
