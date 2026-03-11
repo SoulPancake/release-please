@@ -83,6 +83,27 @@ describe('KeepAChangelogNotes', () => {
       const notes = await changelogNotes.buildNotes(commits, notesOptions);
       expect(notes).to.match(/^## \[1\.2\.3\] - \d{4}-\d{2}-\d{2}/);
     });
+    it('should include version comparison reference links', async () => {
+      const changelogNotes = new KeepAChangelogNotes();
+      const notes = await changelogNotes.buildNotes(commits, notesOptions);
+      expect(notes).to.include(
+        '[unreleased]: https://github.com/googleapis/java-asset/compare/v1.2.3...HEAD'
+      );
+      expect(notes).to.include(
+        '[1.2.3]: https://github.com/googleapis/java-asset/compare/v1.2.2...v1.2.3'
+      );
+    });
+    it('should use releases/tag link for first release (no previousTag)', async () => {
+      const changelogNotes = new KeepAChangelogNotes();
+      const notes = await changelogNotes.buildNotes(commits, {
+        ...notesOptions,
+        previousTag: undefined,
+      });
+      expect(notes).to.include(
+        '[1.2.3]: https://github.com/googleapis/java-asset/releases/tag/v1.2.3'
+      );
+      expect(notes).to.not.include('compare/v1.2.2...v1.2.3');
+    });
     it('should group feat commits under Added', async () => {
       const featCommits = [
         {
@@ -314,7 +335,9 @@ describe('KeepAChangelogNotes', () => {
     it('should handle empty commits', async () => {
       const changelogNotes = new KeepAChangelogNotes();
       const notes = await changelogNotes.buildNotes([], notesOptions);
-      expect(notes).to.match(/^## \[1\.2\.3\] - \d{4}-\d{2}-\d{2}$/);
+      expect(notes).to.match(/^## \[1\.2\.3\] - \d{4}-\d{2}-\d{2}/);
+      expect(notes).to.include('[unreleased]:');
+      expect(notes).to.include('[1.2.3]:');
     });
     it('should handle multiple commits in different sections', async () => {
       const changelogNotes = new KeepAChangelogNotes();

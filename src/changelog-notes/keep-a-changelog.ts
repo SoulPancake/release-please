@@ -173,6 +173,16 @@ export class KeepAChangelogNotes implements ChangelogNotes {
       }
     }
 
+    // Append version comparison reference links (KaC convention)
+    lines.push('');
+    const versionLink = options.previousTag
+      ? `[${options.version}]: ${host}/${options.owner}/${options.repository}/compare/${options.previousTag}...${options.currentTag}`
+      : `[${options.version}]: ${host}/${options.owner}/${options.repository}/releases/tag/${options.currentTag}`;
+    lines.push(
+      `[unreleased]: ${host}/${options.owner}/${options.repository}/compare/${options.currentTag}...HEAD`
+    );
+    lines.push(versionLink);
+
     return lines.join('\n');
   }
 

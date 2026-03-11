@@ -58,6 +58,7 @@ export {
   ChangelogSection,
 } from './changelog-notes';
 export {KeepAChangelogNotes} from './changelog-notes/keep-a-changelog';
+export {KeepAChangelogUpdater} from './updaters/keep-a-changelog';
 export {Logger, setLogger} from './util/logger';
 export {GitHub} from './github';
 export const configSchema = require('../../schemas/config.json');
